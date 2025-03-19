@@ -47,7 +47,7 @@ export function AnimatedBackground({
   }, [defaultValue])
 
   return Children.map(children, (child: any, index) => {
-    const id = child.props['data-id']
+    const id = (child as ReactElement<{ 'data-id': string }>).props['data-id']
 
     const interactionProps = enableHover
       ? {
