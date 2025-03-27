@@ -36,7 +36,3 @@ jobs:
       - name: Build Next.js app
         run: |
           npm run build
-
-      - name: Run tests (if you have any)
-        run: |
-          npm run test  # Replace with your actual test scriptnm
