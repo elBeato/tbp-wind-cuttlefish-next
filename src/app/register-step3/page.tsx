@@ -56,50 +56,37 @@ const RegisterStep3: React.FC = () => {
     );
   }, [searchTerm, stationsList]);
 
-  // Handle selecting a station (store ID)
+  const handleNext = () => {
+    localStorage.setItem('registerData', JSON.stringify(formData)); // Store data
+    router.push('/register-step4'); // Navigate to Step 2
+  };
+
   const handleSelectStation = (station: Station) => {
     if (!subscriptions.includes(station.id)) {
-      setSubscriptions([...subscriptions, station.id]);
+      const updatedSubscriptions = [...subscriptions, station.id];
+      setSubscriptions(updatedSubscriptions);
+  
+      // Save updated subscriptions to localStorage
+      const updatedData = { ...formData, subscriptions: updatedSubscriptions };
+      setFormData(updatedData);
+      localStorage.setItem('registerData', JSON.stringify(updatedData));
     }
     setSearchTerm('');
   };
-
+  
   const handleRemoveSubscription = (stationId: number) => {
-    setSubscriptions(subscriptions.filter((id) => id !== stationId));
+    const updatedSubscriptions = subscriptions.filter((id) => id !== stationId);
+    setSubscriptions(updatedSubscriptions);
+  
+    // Save updated subscriptions to localStorage
+    const updatedData = { ...formData, subscriptions: updatedSubscriptions };
+    setFormData(updatedData);
+    localStorage.setItem('registerData', JSON.stringify(updatedData));
   };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData) {
-      console.error('No form data found.');
-      return;
-    }
-
-    const finalData = { ...formData, subscriptions };
-    console.log(JSON.stringify(finalData));
-
-    try {
-      const response = await fetch('http://localhost:5050/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(finalData),
-      });
-
-      if (!response.ok) throw new Error('Failed to register');
-
-      const data = await response.json();
-      console.log('Registration successful:', data);
-      router.push('/success');
-    } catch (error) {
-      console.error('Error during registration:', error);
-    }
-  };
-
+  
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Register - Step 3</h1>
-      <form onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label className={styles.label}>Search and Select a Station:</label>
           <input
@@ -144,9 +131,7 @@ const RegisterStep3: React.FC = () => {
             })}
           </ul>
         </div>
-
-        <button type="submit" className={styles.button}>Submit</button>
-      </form>
+        <button type="button" onClick={handleNext} className={styles.button}>Next</button>
     </div>
   );
 };
