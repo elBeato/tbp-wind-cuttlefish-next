@@ -1,0 +1,131 @@
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.dropdown {
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+.dropdownItem {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdownItemDisabled {
+  padding: 10px;
+  color: gray;
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Space between rows */
+}
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Two columns: 2/3 for station name, 1/3 for slider */
+  align-items: center;
+  gap: 16px; /* Space between columns */
+}
+
+.stationName {
+  font-weight: bold;
+  white-space: nowrap; /* Prevent long names from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for long names */
+  max-width: 100%; /* Allow station names to take up more space */
+  text-align: left; /* Align text to the left */
+}
+
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Align slider and value to the right */
+  gap: 8px; /* Space between slider and value */
+}
+
+.thresholdValue {
+  font-size: 0.9rem;
+  color: #555;
+  white-space: nowrap; /* Prevent wrapping for the threshold value */
+}
+
+.button {
+  display: block;
+  margin: 32px auto 0; /* Center the button horizontally */
+  width: 400px; /* Fixed width */
+  padding: 12px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
