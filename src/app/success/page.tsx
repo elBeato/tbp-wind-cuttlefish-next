@@ -13,29 +13,18 @@ interface Station {
 const SuccessPage: React.FC = () => {
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null);
-  const [stationsList, setStationsList] = useState<Station[]>([]);
-  const [loadingStations, setLoadingStations] = useState<boolean>(true);
-
-  // Load stations data
-  useEffect(() => {
-    fetch("/stations.json")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Stations list loaded:", data); // Debugging line
-        setStationsList(data);
-        setLoadingStations(false);
-      })
-      .catch(() => {
-        setLoadingStations(false);
-      });
-  }, []);
+  const [thresholdData, setThresholdData] = useState<any>(null);
 
   useEffect(() => {
     const savedData = localStorage.getItem('registerData');
+    const savedThresholds = localStorage.getItem('registerThresholds');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
-      console.log("User data:", parsedData); // Debugging line
       setUserData(parsedData);
+    }
+    if (savedThresholds) {
+      const parsedThresholds = JSON.parse(savedThresholds);
+      setThresholdData(parsedThresholds);
     }
   }, []);
 
@@ -44,20 +33,13 @@ const SuccessPage: React.FC = () => {
     router.push('/');
   };
 
-  if (loadingStations || !userData) {
-    return <div className={styles.container}>Loading your data...</div>;
+  if (!userData) {
+    return <p>Loading...</p>; // Show a loading message while userData is being fetched
   }
 
-  const subscriptions = Array.isArray(userData.subscriptions) ? userData.subscriptions : [];
-
-  // Map the station IDs to their names
-  const translatedSubscriptions = subscriptions.map((id: number) => {
-    const station = stationsList.find((station) => station.id === id);
-    if (!station) {
-      console.warn(`Station with ID ${id} not found in stations list.`);
-    }
-    return station ? `${station.id}: ${station.name}` : `${id}: Station not found`;
-  });
+  if (!thresholdData) {
+    return <p>Loading...</p>; // Show a loading message while userData is being fetched
+  }
 
   return (
     <div className={styles.container}>
@@ -71,12 +53,17 @@ const SuccessPage: React.FC = () => {
         <p><strong>Address:</strong> {userData.address}</p>
         <p><strong>Subscriptions:</strong></p>
         <ul className={styles.list}>
-          {translatedSubscriptions.length > 0 ? (
-            translatedSubscriptions.map((station: string, index: number) => (
-              <li key={index} className={styles.listItem}>{station}</li>
+          {userData.subscriptions.length > 0 ? (
+            userData.subscriptions.map((station: Station) => (
+              <li key={station.id} className={styles.listItem}>
+                {station.name.length > 40 ? `${station.name.slice(0, 40)}...` : station.name}: 
+                {thresholdData && thresholdData.find((threshold: any) => threshold.station === station.id)
+                  ? ` > ${thresholdData.find((threshold: any) => threshold.station === station.id).threshold} knots`
+                  : 'No threshold set'}
+              </li>
             ))
           ) : (
-            <li className={styles.listItem}>No subscriptions selected</li>
+            <li className={styles.listItem}>No subscriptions selected </li>
           )}
         </ul>
       </div>
