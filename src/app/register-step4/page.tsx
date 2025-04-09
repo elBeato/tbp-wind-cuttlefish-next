@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './registerPage.module.css';
+import config from '../util/util';
 
 interface Station {
   id: number;
@@ -11,29 +12,16 @@ interface Station {
 
 interface Thresholds {
   username: string;
+  name: string;
   station: number;
   threshold: number;
 }
 
 const ThresholdSettings: React.FC = () => {
   const router = useRouter();
-  const [subscriptions, setSubscriptions] = useState<number[]>([]);
-  const [stationsList, setStationsList] = useState<Station[]>([]);
+  const [subscriptions, setSubscriptions] = useState<Station[]>([]);
   const [thresholds, setThresholds] = useState<Thresholds[]>([]);
   const [formData, setFormData] = useState<any>(null);
-
-  // Load stations data
-  useEffect(() => {
-    fetch("/stations.json")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Stations list loaded:", data); // Debugging line
-        setStationsList(data);
-      })
-      .catch(() => {
-        console.error("Failed to load stations data");
-      });
-  }, []);
 
   useEffect(() => {
     const savedData = localStorage.getItem('registerData');
@@ -50,21 +38,23 @@ const ThresholdSettings: React.FC = () => {
         setSubscriptions(parsedData.subscriptions);
   
         // Initialize thresholds for all subscribed stations
-        const savedThresholds = parsedData.subscriptions.map((stationId: number) => ({
+        const savedThresholds = parsedData.subscriptions.map((stationId: Station) => ({
           username: parsedData.username,
-          station: stationId,
+          name: stationId.name,
+          station: stationId.id,
           threshold: 25, // Default threshold value
         }));
         setThresholds(savedThresholds);
+
       }
     }
   }, []);
 
   // Handle threshold change
-  const handleThresholdChange = (stationId: number, value: number) => {
+  const handleThresholdChange = (stationId: Station, value: number) => {
     setThresholds((prev) =>
       prev.map((threshold) =>
-        threshold.station === stationId
+        threshold.station === stationId.id
           ? { ...threshold, threshold: value }
           : threshold
       )
@@ -72,12 +62,12 @@ const ThresholdSettings: React.FC = () => {
   };
 
   // Map the station IDs to their names
-  const translatedSubscriptions = subscriptions.map((id) => {
-    const station = stationsList.find((station) => station.id === id);
+  const translatedSubscriptions = subscriptions.map((subscript) => {
+    const station = subscriptions.find((station) => station === subscript);
     if (!station) {
-      console.warn(`Station with ID ${id} not found in stations list.`);
+      console.warn(`Station with ID ${subscript} not found in stations list.`);
     }
-    return station ? `${station.id}: ${station.name}` : `${id}: Station not found`;
+    return station ? `${station.id}: ${station.name}` : `${subscript}: Station not found`;
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,17 +79,15 @@ const ThresholdSettings: React.FC = () => {
     }
 
     const finalData = { ...formData, subscriptions };
-    console.log(JSON.stringify(finalData));
-
+    localStorage.setItem('registerThresholds', JSON.stringify(thresholds)); // Store data
     try {
-      console.log('Sending data to server:', JSON.stringify(thresholds));
-      const responseUsers = await fetch('http://localhost:5050/users', {
+      const responseUsers = await fetch(`${config.apiBaseUrl}/api/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finalData),
       });
 
-      const responseThresholds = await fetch('http://localhost:5050/thresholds', {
+      const responseThresholds = await fetch(`${config.apiBaseUrl}/api/thresholds`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(thresholds),
@@ -126,7 +114,7 @@ const ThresholdSettings: React.FC = () => {
         {subscriptions.length > 0 ? (
           <ul className={styles.list}>
           {subscriptions.map((stationId) => {
-            const station = stationsList.find((s) => s.id === stationId);
+            const station = subscriptions.find((s) => s === stationId);
             if (!station) {
               console.warn(`Station with ID ${stationId} not found in stations list.`);
               return null;
@@ -143,7 +131,7 @@ const ThresholdSettings: React.FC = () => {
                       value={
                         thresholds.find((threshold) => threshold.station === station.id)?.threshold || 25
                       }
-                      onChange={(e) => handleThresholdChange(station.id, Number(e.target.value))}
+                      onChange={(e) => handleThresholdChange(station, Number(e.target.value))}
                     />
                     <span className={styles.thresholdValue}>
                       {thresholds.find((threshold) => threshold.station === station.id)?.threshold || 25} knots

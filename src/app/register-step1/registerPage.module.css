@@ -11,6 +11,12 @@
   color: #333;
 }
 
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
 .formGroup {
   margin-bottom: 15px;
 }

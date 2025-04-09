@@ -15,7 +15,7 @@ const RegisterStep3: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [stationsList, setStationsList] = useState<Station[]>([]);
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
-  const [subscriptions, setSubscriptions] = useState<number[]>([]); // Store station IDs
+  const [subscriptions, setSubscriptions] = useState<Station[]>([]); // Store station IDs
   const [formData, setFormData] = useState<any>(null);
 
 	useEffect(() => {
@@ -62,8 +62,8 @@ const RegisterStep3: React.FC = () => {
   };
 
   const handleSelectStation = (station: Station) => {
-    if (!subscriptions.includes(station.id)) {
-      const updatedSubscriptions = [...subscriptions, station.id];
+    if (!subscriptions.includes(station)) {
+      const updatedSubscriptions = [...subscriptions, station];
       setSubscriptions(updatedSubscriptions);
   
       // Save updated subscriptions to localStorage
@@ -74,7 +74,7 @@ const RegisterStep3: React.FC = () => {
     setSearchTerm('');
   };
   
-  const handleRemoveSubscription = (stationId: number) => {
+  const handleRemoveSubscription = (stationId: Station) => {
     const updatedSubscriptions = subscriptions.filter((id) => id !== stationId);
     setSubscriptions(updatedSubscriptions);
   
@@ -119,9 +119,9 @@ const RegisterStep3: React.FC = () => {
           <h3 className={styles.label}>Your Subscriptions:</h3>
           <ul className={styles.list}>
             {subscriptions.map((stationId) => {
-              const station = stationsList.find((s) => s.id === stationId);
+              const station = stationsList.find((s) => s.id === stationId.id);
               return (
-                <li key={stationId} className={styles.listItem}>
+                <li key={stationId.id} className={styles.listItem}>
                   {station?.name || "Unknown Station"}
                   <button type="button" onClick={() => handleRemoveSubscription(stationId)} className={styles.removeButton}>
                     ❌
