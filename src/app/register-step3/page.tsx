@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './registerPage.module.css';
+import config from '../util/util';
 
 // Define the Station type
 interface Station {
@@ -17,6 +18,7 @@ const RegisterStep3: React.FC = () => {
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
   const [subscriptions, setSubscriptions] = useState<Station[]>([]); // Store station IDs
   const [formData, setFormData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const savedData = localStorage.getItem('registerData');
@@ -34,19 +36,34 @@ const RegisterStep3: React.FC = () => {
     }
   }, [subscriptions, formData]);
 
-  // Load stations from JSON file
+  // Load stations from API
   useEffect(() => {
-    fetch("stations.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setStationsList(data);
-        setFilteredStations(data); // Initialize with full list
-      });
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${config.apiBaseUrl}/api/windguru/stations`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.ok) {
+          const stationsResponse = await response.json();
+          setStationsList(stationsResponse.stations);
+          setFilteredStations(stationsResponse.stations); // Initialize with full list
+        } else {
+          throw new Error('Failed to check username.');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
   }, []);
 
   // Filter stations based on searchTerm
   useEffect(() => {
     if (!stationsList || stationsList.length === 0) return;
+
+    setLoading(true);
     setFilteredStations(
       searchTerm.trim() === ""
         ? stationsList
@@ -54,6 +71,7 @@ const RegisterStep3: React.FC = () => {
             station.name.toLowerCase().includes(searchTerm.toLowerCase())
           )
     );
+    setLoading(false);
   }, [searchTerm, stationsList]);
 
   const handleNext = () => {
@@ -85,7 +103,8 @@ const RegisterStep3: React.FC = () => {
   };
   
   return (
-    <div className={styles.container}>
+    <div className={styles.container}
+      style={{ cursor: loading ? "wait" : "default" }}>
       <h1 className={styles.heading}>Register - Step 3</h1>
         <div className={styles.formGroup}>
           <label className={styles.label}>Search and Select a Station:</label>
@@ -95,7 +114,7 @@ const RegisterStep3: React.FC = () => {
             placeholder="Type to search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          /><p className={styles.onlineText}>{stationsList.length} stations are online</p>
           {searchTerm && (
             <ul className={styles.dropdown}>
               {filteredStations.length > 0 ? (

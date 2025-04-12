@@ -71,3 +71,10 @@
   color: gray;
   text-align: center;
 }
+
+.onlineText {
+  color: darkgreen;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 5px;
+}
