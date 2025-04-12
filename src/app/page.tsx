@@ -9,19 +9,19 @@ export default function Home() {
           src="/logo.png"
 
           alt="Next.js logo"
-          width={450}
+          width={530}
           height={20}
           priority
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
-            Stay stoked by receiving mails from your favorite windspot. 🏄‍♂️
+            Stay stoked by receiving mails from your favorite windspots. 🏄‍♂️
           </li>
           <li className="mb-2">
             Subscribe with your email.
           </li>
           <li className="mb-2">
-            Choose your home spot.
+            Choose your home spots.
           </li>
         </ol>
 
@@ -52,12 +52,12 @@ export default function Home() {
       <footer className="row-start-3 flex gap-20 flex-wrap items-center justify-center mt-20">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="./Station"
+          href="./station"
           rel="noopener noreferrer"
         >
           <Image
             aria-hidden
-            src="/file.svg"
+            src="/windsock.png"
             alt="File icon"
             width={16}
             height={16}
@@ -66,17 +66,17 @@ export default function Home() {
         </a>
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          href="./donation"
           rel="noopener noreferrer"
         >
           <Image
             aria-hidden
-            src="/window.svg"
+            src="/ehecatl.png"
             alt="Window icon"
             width={16}
             height={16}
           />
-          Donate
+          Support us
         </a>
       </footer>
     </div>

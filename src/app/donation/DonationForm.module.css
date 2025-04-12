@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  height: 45vh; /* Full viewport height */
+  text-align: center;
+  padding: 20px;
+}
+
+.heading {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 24px;
+  color: #555;
+}
+
+.dboxdonationbutton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(18, 138, 237);
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-family: Verdana, sans-serif;
+  gap: 8px;
+  width: fit-content;
+  font-size: 16px;
+  border-radius: 8px;
+  line-height: 24px;
+  padding: 12px 24px;
+}
+
+.dboxdonationbutton img {
+  height: 24px;
+}
