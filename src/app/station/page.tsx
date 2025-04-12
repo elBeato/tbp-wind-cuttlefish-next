@@ -14,7 +14,7 @@ const StationChart: React.FC = () => {
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [onlineStations, setOnlineStations] = useState<Station[]>([]); // Online stations
-  const [sortOrder, setSortOrder] = useState<"onlineFirst" | "offlineFirst">("onlineFirst");
+  const [sortOrder, setSortOrder] = useState<"onlineFirst" | "offlineFirst" | "none">("onlineFirst");
 
   // Load stations from API
   useEffect(() => {
@@ -110,8 +110,8 @@ const StationChart: React.FC = () => {
           Offline First
         </button>
         <button
-          onClick={() => setSortOrder("")} // Clear filter
-          className={`${styles.sortButton} ${sortOrder === "" ? styles.activeButton : ""}`}
+          onClick={() => setSortOrder("none")} // Clear filter
+          className={`${styles.sortButton} ${sortOrder === "none" ? styles.activeButton : ""}`}
         >
           Clear Filter
         </button>
