@@ -1,11 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './registerPage.module.css';
 
 const RegisterStep2: React.FC = () => {
   const router = useRouter();
+  const searchParams = useSearchParams(); // Access query parameters
+  const stationId = searchParams.get("stationId"); // Get the stationId from the URL
+
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -27,7 +30,12 @@ const RegisterStep2: React.FC = () => {
 
   const handleNext = () => {
     localStorage.setItem('registerData', JSON.stringify(formData)); // Store data
-    router.push('/register-step3'); // Navigate to Step 2
+        // Navigate to the next step, with or without stationId
+        if (stationId) {
+          router.push(`/register-step3?stationId=${stationId}`); // Navigate with stationId
+        } else {
+          router.push(`/register-step3`); // Navigate without stationId
+        }
   };
 
   return (
@@ -36,10 +44,6 @@ const RegisterStep2: React.FC = () => {
         <div className={styles.formGroup}>
           <label className={styles.label}>Name & surname:</label>
           <input type="text" name="name" value={formData.name} onChange={handleChange} required className={styles.input} />
-        </div>
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Address:</label>
-          <input type="text" name="address" value={formData.address} onChange={handleChange} required className={styles.input} />
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label}>Mobile:</label>
