@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { FixedSizeList as List } from "react-window";
+import { useRouter } from "next/navigation";
 import styles from "./Chart.module.css";
 import config from "../util/util";
 
@@ -15,6 +16,7 @@ const StationChart: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [onlineStations, setOnlineStations] = useState<Station[]>([]); // Online stations
   const [sortOrder, setSortOrder] = useState<"onlineFirst" | "offlineFirst" | "none">("onlineFirst");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   // Load stations from API
   useEffect(() => {
@@ -56,7 +58,11 @@ const StationChart: React.FC = () => {
     fetchData();
   }, []);
 
-  const sortedStations = [...stations].sort((a, b) => {
+  const filteredStations = stations.filter((station) =>
+    station.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const sortedStations = [...filteredStations].sort((a, b) => {
     if (sortOrder === "onlineFirst") {
       const isAOnline = onlineStations.some((onlineStation) => onlineStation.id === a.id);
       const isBOnline = onlineStations.some((onlineStation) => onlineStation.id === b.id);
@@ -71,21 +77,35 @@ const StationChart: React.FC = () => {
   });
 
   const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
+    const router = useRouter(); // Initialize the router
     const station = sortedStations[index];
-    const isOnline = onlineStations.some((onlineStation) => onlineStation.id === station.id); // Check if the station is online
+    const isOnline = onlineStations.some((onlineStation) => onlineStation.id === station.id);
+  
+    const handleRowClick = () => {
+      if (isOnline) {
+        router.push(`/register-step1?stationId=${station.id}`); // Navigate to the register page with the station ID
+      }
+    };
   
     return (
-      <div style={style} className={styles.row}>
+      <div
+        style={style}
+        className={`${styles.row} ${isOnline ? styles.clickableRow : styles.disabledRow}`} // Add a disabledRow class for offline stations
+        onClick={handleRowClick} // Handle row click
+      >
         <span className={styles.id}>{station.id}</span>
         <span className={`${styles.name} ${!isOnline ? styles.offline : ""}`}>
-        {station.name}
+          {station.name}
         </span>
-        {isOnline && <span className={styles.heart}>
-        <div className={styles.waveIndicator}>
-          <span></span><span></span><span></span>
-        </div>
-
-        </span>} {/* Display heart if online */}
+        {isOnline && (
+          <span className={styles.heart}>
+            <div className={styles.waveIndicator}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </span>
+        )}
       </div>
     );
   };
@@ -116,12 +136,22 @@ const StationChart: React.FC = () => {
           Clear Filter
         </button>
       </div>
-      <div className={styles.container}>
 
+      <div className={styles.searchContainer}>
+        <input
+          type="text"
+          placeholder="Search for a station..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className={styles.searchInput}
+        />
+      </div>
+
+      <div className={styles.container}>
         <h1 className={styles.heading}>Station Chart</h1>
         <List
           height={500} // Height of the scrollable area
-          itemCount={stations.length} // Total number of items
+          itemCount={sortedStations.length} // Total number of items
           itemSize={50} // Height of each row
           width="100%" // Width of the list
         >

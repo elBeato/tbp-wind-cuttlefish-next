@@ -2,11 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 import styles from './registerPage.module.css';
 import config from '../util/util';
 
 const RegisterStep1: React.FC = () => {
   const router = useRouter();
+  const searchParams = useSearchParams(); // Access query parameters
+  const stationId = searchParams.get("stationId"); // Get the stationId from the URL
+  
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [isButtonNextDisabled, setIsButtonNextDisabled] = useState<boolean>(true);
@@ -110,13 +114,21 @@ const RegisterStep1: React.FC = () => {
 
   const handleNext = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!formData) {
-      console.error('No form data found.');
+      console.error("No form data found.");
       return;
     }
-    localStorage.setItem('registerData', JSON.stringify(formData)); // Store data
-    router.push('/register-step2'); // Navigate to Step 2
+  
+    // Store form data in localStorage
+    localStorage.setItem("registerData", JSON.stringify(formData));
+  
+    // Navigate to the next step, with or without stationId
+    if (stationId) {
+      router.push(`/register-step2?stationId=${stationId}`); // Navigate with stationId
+    } else {
+      router.push(`/register-step2`); // Navigate without stationId
+    }
   };
 
   return (

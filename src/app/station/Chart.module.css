@@ -48,6 +48,44 @@
   gap: 8px;
 }
 
+.clickableRow {
+  cursor: pointer; /* Change the cursor to indicate the row is clickable */
+  transition: background-color 0.2s ease;
+}
+
+.clickableRow:hover {
+  background-color: #f0f8ff; /* Light blue background on hover */
+}
+
+.disabledRow {
+  cursor: not-allowed; /* Show a "not-allowed" cursor for offline stations */
+  opacity: 0.6; /* Dim the row to indicate it's not clickable */
+  pointer-events: none; /* Prevent click events */
+}
+
+.clickableRow {
+  cursor: pointer; /* Change the cursor to indicate the row is clickable */
+  transition: background-color 0.2s ease;
+}
+
+.clickableRow:hover {
+  background-color: #f0f8ff; /* Light blue background on hover */
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.searchInput {
+  width: 300px;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .sortButton {
   padding: 8px 16px;
   background-color: #007bff;
