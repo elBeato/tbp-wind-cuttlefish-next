@@ -62,7 +62,7 @@ const ThresholdSettings: React.FC = () => {
   };
 
   // Map the station IDs to their names
-  const translatedSubscriptions = subscriptions.map((subscript) => {
+  subscriptions.map((subscript) => {
     const station = subscriptions.find((station) => station === subscript);
     if (!station) {
       console.warn(`Station with ID ${subscript} not found in stations list.`);

@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 import styles from './registerPage.module.css';
 import config from '../util/util';
-import { useSearchParams } from "next/navigation";
 
 // Define the Station type
 interface Station {
