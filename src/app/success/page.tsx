@@ -50,7 +50,6 @@ const SuccessPage: React.FC = () => {
         <p><strong>Name:</strong> {userData.name}</p>
         <p><strong>Email:</strong> {userData.email}</p>
         <p><strong>Mobile:</strong> {userData.mobile}</p>
-        <p><strong>Address:</strong> {userData.address}</p>
         <p><strong>Subscriptions:</strong></p>
         <ul className={styles.list}>
           {userData.subscriptions.length > 0 ? (
