@@ -1,0 +1,46 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.userInfo {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.userInfo p {
+  font-size: 1rem;
+  margin: 8px 0;
+}
+
+.logoutButton {
+  padding: 10px 16px;
+  font-size: 1rem;
+  color: white;
+  background-color: #d9534f;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: #c9302c;
+}
+
+.loading {
+  font-size: 1.2rem;
+  color: #555;
+}

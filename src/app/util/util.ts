@@ -4,7 +4,7 @@ const devConfig = {
 };
 
 const prodConfig = {
-  apiBaseUrl: "http://localhost:5050",
+  apiBaseUrl: "https://windseekerapp.ddns.net",
   debugMode: false,
 };
 
