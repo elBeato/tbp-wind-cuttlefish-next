@@ -59,7 +59,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
           <div className="flex min-h-screen w-full flex-col font-[family-name:var(--font-inter-tight)]">
-            <div className="relative mx-auto w-full max-w-screen-sm flex-1 px-4 pt-20">
+            <div className="relative mx-auto w-full max-w-screen-sm flex-1 px-2 pt-20">
               <Header />
                 <Suspense fallback={<div>Loading...</div>}>
                   {children}

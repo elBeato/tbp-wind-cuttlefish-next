@@ -1,12 +1,39 @@
+'use client';
+
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [imageSrc, setImageSrc] = useState('/logo.png'); // Default image
+
+  const handleChangeImage = () => {
+    // Array of image paths in the public folder
+    const images = ['/logo.png', 
+      '/image_1.jpg', 
+      '/image_3.jpg', 
+      '/image_4.jpg', 
+      '/image_5.jpg', 
+      '/image_6.jpg', 
+      '/image_7.jpg', 
+      '/image_8.jpg'];
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    setImageSrc(randomImage); // Set a random image
+  };
+  
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen[10px] p-8 pb-20 gap-0 sm:p-2 font-[family-name:var(--font-geist-sans)]">
+      {/* Button in the top-right corner */}
+      <button
+        onClick={handleChangeImage}
+        className="simpleButton"
+        aria-label="Change Image"
+      >
+        🦞
+      </button>
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
-          src="/logo.png"
+          src={imageSrc}
 
           alt="Next.js logo"
           width={530}
@@ -42,7 +69,7 @@ export default function Home() {
           </a>
           <a
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="./Login"
+            href="./login"
             rel="noopener noreferrer"
           >
             Log in
