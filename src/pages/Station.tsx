@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FixedSizeList as List } from "react-window";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Chart.module.css";
 import config from "../lib/util";
 
@@ -10,8 +10,6 @@ interface Station {
 }
 
 const Station: React.FC = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [onlineStations, setOnlineStations] = useState<Station[]>([]);
