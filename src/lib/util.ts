@@ -1,5 +1,5 @@
 const devConfig = {
-  apiBaseUrl: "http://localhost:5050",
+  apiBaseUrl: "https://windseekerapp.ddns.net",
   debugMode: true,
 };
 

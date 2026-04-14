@@ -8,7 +8,7 @@ export function Footer() {
           <TextLoop className="text-xs text-zinc-500">
             <span>© 2025 GlobeX</span>
             <span>Built with LOVE 💗 and ...</span>
-            <span>built with Motion-Primitives.</span>
+            <span>... built with motion.</span>
           </TextLoop>
         </a>
       </div>
