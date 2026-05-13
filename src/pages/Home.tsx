@@ -48,7 +48,7 @@ export default function Home() {
         </ol>
 
         {/* Actions */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
+        <div className="flex flex-wrap items-center justify-center gap-36 mt-4">
           <Link
             to="/register-step1"
             className="rounded-full bg-foreground text-background px-5 h-12 flex items-center gap-2 text-sm sm:text-base hover:bg-[#383838] dark:hover:bg-[#ccc]"
@@ -65,8 +65,15 @@ export default function Home() {
 
           <Link
             to="/login"
-            className="rounded-full border border-black/[.08] dark:border-white/[.145] px-5 h-12 flex items-center text-sm sm:text-base hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
+            className="rounded-full gap-2 border border-black/[.08] dark:border-white/[.145] px-5 h-12 flex items-center text-sm sm:text-base hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
           >
+            <img
+              className="dark:invert"
+              src="/wind.png"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
+            />
             Log in
           </Link>
         </div>

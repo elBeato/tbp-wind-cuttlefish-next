@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import DashboardStations from './pages/DashboardStations'
 import Station from './pages/Station'
 import Donation from './pages/Donation'
 import Success from './pages/Success'
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard-stations" element={<DashboardStations />} />
         <Route path="/station" element={<Station />} />
         <Route path="/donation" element={<Donation />} />
         <Route path="/success" element={<Success />} />

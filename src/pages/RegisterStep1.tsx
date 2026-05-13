@@ -14,7 +14,8 @@ const RegisterStep1: React.FC = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    password: ''
+    password: '',
+    notification_channel: 'email',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
