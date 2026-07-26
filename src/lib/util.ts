@@ -4,7 +4,7 @@ const devConfig = {
 };
 
 const prodConfig = {
-  apiBaseUrl: "https://windseekerapp.ddns.net",
+  apiBaseUrl: "https://elbeatoserverrealp.tailc1c195.ts.net",
   debugMode: false,
 };
 
