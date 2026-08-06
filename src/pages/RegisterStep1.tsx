@@ -114,7 +114,7 @@ const RegisterStep1: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Register - Step 1{config.apiBaseUrl}</h1>
+      <h1 className={styles.heading}>Register - Step 1</h1>
       <form onSubmit={(e) => e.preventDefault()}>
       <div className={styles.formGroup}>
         <label className={styles.label}>Username:</label>
