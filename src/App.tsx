@@ -11,6 +11,7 @@ import RegisterStep2 from './pages/RegisterStep2'
 import RegisterStep3 from './pages/RegisterStep3'
 import RegisterStep4 from './pages/RegisterStep4'
 import Layout from './components/Layout'
+import Unsubscribe from './pages/Unsubscribe'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/register-step2" element={<RegisterStep2 />} />
         <Route path="/register-step3" element={<RegisterStep3 />} />
         <Route path="/register-step4" element={<RegisterStep4 />} />
+        <Route path="/unsubscribe" element={<Unsubscribe />} />
       </Route>
     </Routes>
   )
