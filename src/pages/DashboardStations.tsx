@@ -20,6 +20,7 @@ const DashboardStations: React.FC = () => {
   const [_, setThresholds] = useState<{ station: number; threshold: number }[]>([]);
   const [loading, setLoading] = useState(true);
   const [stationId, setStationId] = useState('');
+  const [stationSearch, setStationSearch] = useState('');
   const [newThreshold, setNewThreshold] = useState('');
   const [addingSubscription, setAddingSubscription] = useState(false);
   const [error, setError] = useState('');
@@ -267,21 +268,48 @@ const DashboardStations: React.FC = () => {
       <form onSubmit={addSubscription} className={styles.form}>
         <h3>Add New Station</h3>
         <div className={styles.formGroup}>
-          <select
-            value={stationId}
-            onChange={(e) => {
-              setStationId(e.target.value);
-            }}
-            required
-          >
-            <option value="">Select a station...</option>
-            {onlineStations
-              .filter((s) => !subscriptions.some((sub) => sub.station === s.id))
-              .map((station) => (
-                <option key={station.id} value={station.id}>
-                  {station.id} - {station.name}
-                </option>
-              ))}
+          <select>
+            <div className={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Search station..."
+              value={stationSearch}
+              onChange={(e) => setStationSearch(e.target.value)}
+            />
+
+            <select
+              value={stationId}
+              onChange={(e) => {
+                setStationId(e.target.value);
+              }}
+              required
+            >
+              <option value="">Select a station...</option>
+
+              {onlineStations
+                .filter(
+                  (s) =>
+                    !subscriptions.some((sub) => sub.station === s.id) &&
+                    s.name.toLowerCase().includes(stationSearch.toLowerCase())
+                )
+                .map((station) => (
+                  <option key={station.id} value={station.id}>
+                    {station.name}
+                  </option>
+                ))}
+            </select>
+
+            <input
+              type="number"
+              placeholder="Threshold"
+              value={newThreshold}
+              onChange={(e) => setNewThreshold(e.target.value)}
+            />
+
+            <button type="submit" disabled={addingSubscription}>
+              {addingSubscription ? 'Adding...' : 'Add Station'}
+            </button>
+          </div>
           </select>
           <input
             type="number"
