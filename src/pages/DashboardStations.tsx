@@ -267,60 +267,73 @@ const DashboardStations: React.FC = () => {
 
       <form onSubmit={addSubscription} className={styles.form}>
         <h3>Add New Station</h3>
+
         <div className={styles.formGroup}>
-          <select>
-            <div className={styles.formGroup}>
+          <div className={styles.stationSelector}>
             <input
               type="text"
               placeholder="Search station..."
               value={stationSearch}
-              onChange={(e) => setStationSearch(e.target.value)}
-            />
-
-            <select
-              value={stationId}
               onChange={(e) => {
-                setStationId(e.target.value);
+                setStationSearch(e.target.value);
+                setStationId('');
               }}
               required
-            >
-              <option value="">Select a station...</option>
-
-              {onlineStations
-                .filter(
-                  (s) =>
-                    !subscriptions.some((sub) => sub.station === s.id) &&
-                    s.name.toLowerCase().includes(stationSearch.toLowerCase())
-                )
-                .map((station) => (
-                  <option key={station.id} value={station.id}>
-                    {station.name}
-                  </option>
-                ))}
-            </select>
-
-            <input
-              type="number"
-              placeholder="Threshold"
-              value={newThreshold}
-              onChange={(e) => setNewThreshold(e.target.value)}
             />
 
-            <button type="submit" disabled={addingSubscription}>
-              {addingSubscription ? 'Adding...' : 'Add Station'}
-            </button>
+            <div className={styles.stationList}>
+              {onlineStations
+                .filter(
+                  (station) =>
+                    !subscriptions.some((sub) => sub.station === station.id) &&
+                    station.name
+                      .toLowerCase()
+                      .includes(stationSearch.toLowerCase())
+                )
+                .map((station) => (
+                  <button
+                    key={station.id}
+                    type="button"
+                    className={`${styles.stationItem} ${
+                      stationId === String(station.id)
+                        ? styles.stationItemSelected
+                        : ''
+                    }`}
+                    onClick={() => {
+                      setStationId(String(station.id));
+                      setStationSearch(station.name);
+                    }}
+                  >
+                    {station.name}
+                  </button>
+                ))}
+
+              {onlineStations.filter(
+                (station) =>
+                  !subscriptions.some((sub) => sub.station === station.id) &&
+                  station.name
+                    .toLowerCase()
+                    .includes(stationSearch.toLowerCase())
+              ).length === 0 && (
+                <div className={styles.noStations}>
+                  No stations found
+                </div>
+              )}
+            </div>
           </div>
-          </select>
+
           <input
             type="number"
             placeholder="Threshold"
             value={newThreshold}
             onChange={(e) => setNewThreshold(e.target.value)}
           />
+
           <button type="submit" disabled={addingSubscription}>
             {addingSubscription ? 'Adding...' : 'Add Station'}
           </button>
         </div>
+
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
 
