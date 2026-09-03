@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const API_HOST = "https://elbeatoserverrealp.tailc1c195.ts.net";
 
 export default function Unsubscribe() {
     const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
     const [message, setMessage] = useState("");
+    const { token: pathToken } = useParams<{ token?: string }>();
 
     useEffect(() => {
         const unsubscribe = async () => {
             const params = new URLSearchParams(window.location.search);
-            const token = params.get("token");
+            const token = pathToken ?? params.get("token");
 
             if (!token) {
                 setStatus("error");
@@ -38,7 +40,7 @@ export default function Unsubscribe() {
         };
 
         unsubscribe();
-    }, []);
+    }, [pathToken]);
 
     return (
         <div

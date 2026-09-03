@@ -29,6 +29,7 @@ export default function App() {
         <Route path="/register-step3" element={<RegisterStep3 />} />
         <Route path="/register-step4" element={<RegisterStep4 />} />
         <Route path="/unsubscribe" element={<Unsubscribe />} />
+        <Route path="/unsubscribe/:token" element={<Unsubscribe />} />
       </Route>
     </Routes>
   )
