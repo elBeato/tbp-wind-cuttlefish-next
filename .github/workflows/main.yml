@@ -1,4 +1,4 @@
-name: 🚀 Deploy website on push
+name: 🚀 Deploy windseeker website on push
 on:
   push:
     branches:
@@ -10,6 +10,9 @@ jobs:
     environment: production
         
     steps:
+      - name: Audit dependencies - run npm audit and fail if any vulnerabilities are found
+        run: npm audit --audit-level=high
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
