@@ -10,6 +10,15 @@ jobs:
     environment: production
         
     steps:
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Build project
+        run: npm run build
+
       - name: Audit dependencies - run npm audit and fail if any vulnerabilities are found
         run: npm audit --audit-level=high
 
