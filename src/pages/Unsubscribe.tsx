@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-const API_HOST = "https://elbeatoserverrealp.tailc1c195.ts.net";
+import config from "../lib/util";
 
 export default function Unsubscribe() {
     const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
@@ -21,20 +20,44 @@ export default function Unsubscribe() {
 
             try {
                 const response = await fetch(
-                    `${API_HOST}/api/auth/me/subscription?unsubscribe_token=${encodeURIComponent(token)}`
+                    `${config.apiBaseUrl}/api/auth/me/subscription?unsubscribe_token=${encodeURIComponent(
+                        token
+                    )}`
                 );
 
                 if (!response.ok) {
-                    throw new Error("Unsubscribe request failed");
+                    const contentType = response.headers.get("content-type") || "";
+                    let bodyText = "";
+                    try {
+                        bodyText = contentType.includes("application/json")
+                            ? JSON.stringify(await response.json())
+                            : await response.text();
+                    } catch (e: any) {
+                        bodyText = `Error: ${e.message} (failed to read response body)`;
+                    }
+
+                    console.error("Unsubscribe failed", {
+                        status: response.status,
+                        statusText: response.statusText,
+                        body: bodyText,
+                        url: response.url,
+                    });
+
+                    setStatus("error");
+                    setMessage(
+                        bodyText || `Unsubscribe failed with status ${response.status}`
+                    );
+                    return;
                 }
 
+                // success
                 setStatus("success");
                 setMessage("You have been successfully unsubscribed from these alerts.");
-            } catch (error) {
-                console.error(error);
+            } catch (error: any) {
+                console.error("Network or unexpected error during unsubscribe:", error);
                 setStatus("error");
                 setMessage(
-                    "We couldn't unsubscribe you. The link may be invalid or expired."
+                    error?.message || "We couldn't unsubscribe you. The link may be invalid or expired."
                 );
             }
         };
