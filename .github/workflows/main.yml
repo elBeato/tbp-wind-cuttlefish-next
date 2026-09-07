@@ -8,20 +8,8 @@ jobs:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     environment: production
-        
+
     steps:
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Audit dependencies
-        run: npm audit --audit-level=high
-
-      - name: Build project
-        run: npm run build
-
-      - name: Audit dependencies - run npm audit and fail if any vulnerabilities are found
-        run: npm audit --audit-level=high
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -29,9 +17,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
 
       - name: Build project
         run: npm run build
@@ -45,3 +37,4 @@ jobs:
           local-dir: ./dist/
           server-dir: /
           dangerous-clean-slate: true
+          
